@@ -195,6 +195,51 @@ export function CreateProject() {
     }
   };
 
+  // Handle form data updates for each step
+  const handleVideoTypeChange = (type: 'product-demo' | 'explainer' | 'tutorial' | 'brand-story' | 'social-ad' | 'custom') => {
+    setFormData(prev => ({ ...prev, type }));
+  };
+
+  const handleOrientationChange = (orientation: 'horizontal' | 'vertical') => {
+    setFormData(prev => ({ ...prev, orientation }));
+  };
+
+  const handleToneChange = (tone: 'professional' | 'casual' | 'energetic' | 'serious' | 'humorous' | 'inspirational') => {
+    setFormData(prev => ({ ...prev, tone }));
+  };
+
+  const handleAvatarChange = (avatar: Avatar) => {
+    setFormData(prev => ({ ...prev, avatar }));
+  };
+
+  const handleScriptChange = (script: string) => {
+    setFormData(prev => ({ ...prev, script }));
+  };
+
+  const handleNeedsHelpChange = (needsScriptHelp: boolean) => {
+    setFormData(prev => ({ ...prev, needsScriptHelp }));
+  };
+
+  const handleRequirementsChange = (requirements: any) => {
+    setFormData(prev => ({ ...prev, scriptRequirements: requirements }));
+  };
+
+  const handleFilesChange = (files: File[]) => {
+    setFormData(prev => ({ ...prev, attachedFiles: files }));
+  };
+
+  const handleNotesChange = (notes: string) => {
+    setFormData(prev => ({ ...prev, additionalNotes: notes }));
+  };
+
+  const handleInstructionsChange = (instructions: string) => {
+    setFormData(prev => ({ ...prev, instructions }));
+  };
+
+  const handlePlanChange = (plan: PricingPlan) => {
+    setFormData(prev => ({ ...prev, plan }));
+  };
+
   if (orderComplete) {
     return (
       <div className="min-h-screen bg-gray-900 pt-20">
@@ -298,22 +343,22 @@ export function CreateProject() {
           <VideoTypeSelector
             selectedType={formData.type}
             selectedOrientation={formData.orientation}
-            onTypeChange={(type) => setFormData({ ...formData, type })}
-            onOrientationChange={(orientation) => setFormData({ ...formData, orientation })}
+            onTypeChange={handleVideoTypeChange}
+            onOrientationChange={handleOrientationChange}
           />
         );
       case 2:
         return (
           <ToneSelector
             selectedTone={formData.tone}
-            onToneChange={(tone) => setFormData({ ...formData, tone })}
+            onToneChange={handleToneChange}
           />
         );
       case 3:
         return (
           <AvatarSelector
             selectedAvatar={formData.avatar}
-            onAvatarChange={(avatar) => setFormData({ ...formData, avatar })}
+            onAvatarChange={handleAvatarChange}
           />
         );
       case 4:
@@ -322,9 +367,9 @@ export function CreateProject() {
             script={formData.script}
             needsScriptHelp={formData.needsScriptHelp}
             scriptRequirements={formData.scriptRequirements}
-            onScriptChange={(script) => setFormData({ ...formData, script })}
-            onNeedsHelpChange={(needsScriptHelp) => setFormData({ ...formData, needsScriptHelp })}
-            onRequirementsChange={(requirements) => setFormData({ ...formData, scriptRequirements: requirements })}
+            onScriptChange={handleScriptChange}
+            onNeedsHelpChange={handleNeedsHelpChange}
+            onRequirementsChange={handleRequirementsChange}
           />
         );
       case 5:
@@ -333,16 +378,16 @@ export function CreateProject() {
             files={formData.attachedFiles}
             notes={formData.additionalNotes}
             instructions={formData.instructions}
-            onFilesChange={(files) => setFormData({ ...formData, attachedFiles: files })}
-            onNotesChange={(notes) => setFormData({ ...formData, additionalNotes: notes })}
-            onInstructionsChange={(instructions) => setFormData({ ...formData, instructions })}
+            onFilesChange={handleFilesChange}
+            onNotesChange={handleNotesChange}
+            onInstructionsChange={handleInstructionsChange}
           />
         );
       case 6:
         return (
           <PlanSelector
             selectedPlan={formData.plan}
-            onPlanChange={(plan) => setFormData({ ...formData, plan })}
+            onPlanChange={handlePlanChange}
           />
         );
       case 7:
