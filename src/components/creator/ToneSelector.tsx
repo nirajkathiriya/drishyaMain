@@ -88,6 +88,11 @@ export function ToneSelector({ selectedTone, onToneChange }: ToneSelectorProps) 
     }, 2000);
   };
 
+  const handleToneClick = (toneId: string) => {
+    console.log('Tone clicked:', toneId);
+    onToneChange(toneId as 'professional' | 'casual' | 'energetic' | 'serious' | 'humorous' | 'inspirational');
+  };
+
   return (
     <div className="space-y-8">
       <div>
@@ -104,7 +109,7 @@ export function ToneSelector({ selectedTone, onToneChange }: ToneSelectorProps) 
                 ? 'ring-2 ring-purple-500 shadow-2xl bg-gradient-to-br from-purple-500/10 to-blue-500/10' 
                 : 'card-professional hover:shadow-xl'
             }`}
-            onClick={() => onToneChange(tone.id)}
+            onClick={() => handleToneClick(tone.id)}
           >
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">

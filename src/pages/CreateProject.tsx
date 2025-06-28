@@ -93,23 +93,57 @@ export function CreateProject() {
   ];
 
   const isStepComplete = (step: number) => {
+    console.log(`Checking step ${step} completion:`, formData);
     switch (step) {
-      case 1: return formData.type !== '' && formData.orientation !== '';
-      case 2: return formData.tone !== '';
-      case 3: return formData.avatar !== null;
-      case 4: return formData.script.trim() !== '' || (formData.needsScriptHelp && formData.scriptRequirements.targetAudience.trim() !== '' && formData.scriptRequirements.keyMessages.trim() !== '');
-      case 5: return true; // Files and notes are optional
-      case 6: return formData.plan !== null;
-      case 7: return formData.customerEmail !== '' && formData.customerName !== '';
-      default: return false;
+      case 1: 
+        const step1Complete = formData.type !== '' && formData.orientation !== '';
+        console.log(`Step 1 complete: ${step1Complete}`, { type: formData.type, orientation: formData.orientation });
+        return step1Complete;
+      case 2: 
+        const step2Complete = formData.tone !== '';
+        console.log(`Step 2 complete: ${step2Complete}`, { tone: formData.tone });
+        return step2Complete;
+      case 3: 
+        const step3Complete = formData.avatar !== null;
+        console.log(`Step 3 complete: ${step3Complete}`, { avatar: formData.avatar });
+        return step3Complete;
+      case 4: 
+        const step4Complete = formData.script.trim() !== '' || (formData.needsScriptHelp && formData.scriptRequirements.targetAudience.trim() !== '' && formData.scriptRequirements.keyMessages.trim() !== '');
+        console.log(`Step 4 complete: ${step4Complete}`, { 
+          script: formData.script, 
+          needsHelp: formData.needsScriptHelp, 
+          requirements: formData.scriptRequirements 
+        });
+        return step4Complete;
+      case 5: 
+        return true; // Files and notes are optional
+      case 6: 
+        const step6Complete = formData.plan !== null;
+        console.log(`Step 6 complete: ${step6Complete}`, { plan: formData.plan });
+        return step6Complete;
+      case 7: 
+        const step7Complete = formData.customerEmail !== '' && formData.customerName !== '';
+        console.log(`Step 7 complete: ${step7Complete}`, { email: formData.customerEmail, name: formData.customerName });
+        return step7Complete;
+      default: 
+        return false;
     }
   };
 
-  const canProceed = () => isStepComplete(currentStep);
+  const canProceed = () => {
+    const canGo = isStepComplete(currentStep);
+    console.log(`Can proceed from step ${currentStep}: ${canGo}`);
+    return canGo;
+  };
 
   const handleNext = () => {
+    console.log('Next button clicked, current step:', currentStep);
     if (canProceed() && currentStep < 7) {
-      setCurrentStep(currentStep + 1);
+      const nextStep = currentStep + 1;
+      console.log('Moving to step:', nextStep);
+      setCurrentStep(nextStep);
+    } else {
+      console.log('Cannot proceed:', { canProceed: canProceed(), currentStep });
     }
   };
 
@@ -131,6 +165,106 @@ export function CreateProject() {
 
   const handleAuthSuccess = () => {
     setShowAuthModal(false);
+  };
+
+  // Form data update handlers with proper state management
+  const handleVideoTypeChange = (type: 'product-demo' | 'explainer' | 'tutorial' | 'brand-story' | 'social-ad' | 'custom') => {
+    console.log('Video type changed to:', type);
+    setFormData(prev => {
+      const newData = { ...prev, type };
+      console.log('New form data after type change:', newData);
+      return newData;
+    });
+  };
+
+  const handleOrientationChange = (orientation: 'horizontal' | 'vertical') => {
+    console.log('Orientation changed to:', orientation);
+    setFormData(prev => {
+      const newData = { ...prev, orientation };
+      console.log('New form data after orientation change:', newData);
+      return newData;
+    });
+  };
+
+  const handleToneChange = (tone: 'professional' | 'casual' | 'energetic' | 'serious' | 'humorous' | 'inspirational') => {
+    console.log('Tone changed to:', tone);
+    setFormData(prev => {
+      const newData = { ...prev, tone };
+      console.log('New form data after tone change:', newData);
+      return newData;
+    });
+  };
+
+  const handleAvatarChange = (avatar: Avatar) => {
+    console.log('Avatar changed to:', avatar);
+    setFormData(prev => {
+      const newData = { ...prev, avatar };
+      console.log('New form data after avatar change:', newData);
+      return newData;
+    });
+  };
+
+  const handleScriptChange = (script: string) => {
+    console.log('Script changed, length:', script.length);
+    setFormData(prev => {
+      const newData = { ...prev, script };
+      console.log('New form data after script change:', newData);
+      return newData;
+    });
+  };
+
+  const handleNeedsHelpChange = (needsScriptHelp: boolean) => {
+    console.log('Needs script help changed to:', needsScriptHelp);
+    setFormData(prev => {
+      const newData = { ...prev, needsScriptHelp };
+      console.log('New form data after needs help change:', newData);
+      return newData;
+    });
+  };
+
+  const handleRequirementsChange = (requirements: any) => {
+    console.log('Script requirements changed:', requirements);
+    setFormData(prev => {
+      const newData = { ...prev, scriptRequirements: requirements };
+      console.log('New form data after requirements change:', newData);
+      return newData;
+    });
+  };
+
+  const handleFilesChange = (files: File[]) => {
+    console.log('Files changed, count:', files.length);
+    setFormData(prev => {
+      const newData = { ...prev, attachedFiles: files };
+      console.log('New form data after files change:', newData);
+      return newData;
+    });
+  };
+
+  const handleNotesChange = (notes: string) => {
+    console.log('Notes changed, length:', notes.length);
+    setFormData(prev => {
+      const newData = { ...prev, additionalNotes: notes };
+      console.log('New form data after notes change:', newData);
+      return newData;
+    });
+  };
+
+  const handleInstructionsChange = (instructions: string) => {
+    console.log('Instructions changed, length:', instructions.length);
+    setFormData(prev => {
+      const newData = { ...prev, instructions };
+      console.log('New form data after instructions change:', newData);
+      return newData;
+    });
+  };
+
+  const handlePlanChange = (plan: PricingPlan) => {
+    console.log('Plan changed to:', plan);
+    setFormData(prev => {
+      const newData = { ...prev, plan };
+      console.log('New form data after plan change:', newData);
+      return newData;
+    });
   };
 
   const generateOrderId = () => {
@@ -193,51 +327,6 @@ export function CreateProject() {
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  // Handle form data updates for each step
-  const handleVideoTypeChange = (type: 'product-demo' | 'explainer' | 'tutorial' | 'brand-story' | 'social-ad' | 'custom') => {
-    setFormData(prev => ({ ...prev, type }));
-  };
-
-  const handleOrientationChange = (orientation: 'horizontal' | 'vertical') => {
-    setFormData(prev => ({ ...prev, orientation }));
-  };
-
-  const handleToneChange = (tone: 'professional' | 'casual' | 'energetic' | 'serious' | 'humorous' | 'inspirational') => {
-    setFormData(prev => ({ ...prev, tone }));
-  };
-
-  const handleAvatarChange = (avatar: Avatar) => {
-    setFormData(prev => ({ ...prev, avatar }));
-  };
-
-  const handleScriptChange = (script: string) => {
-    setFormData(prev => ({ ...prev, script }));
-  };
-
-  const handleNeedsHelpChange = (needsScriptHelp: boolean) => {
-    setFormData(prev => ({ ...prev, needsScriptHelp }));
-  };
-
-  const handleRequirementsChange = (requirements: any) => {
-    setFormData(prev => ({ ...prev, scriptRequirements: requirements }));
-  };
-
-  const handleFilesChange = (files: File[]) => {
-    setFormData(prev => ({ ...prev, attachedFiles: files }));
-  };
-
-  const handleNotesChange = (notes: string) => {
-    setFormData(prev => ({ ...prev, additionalNotes: notes }));
-  };
-
-  const handleInstructionsChange = (instructions: string) => {
-    setFormData(prev => ({ ...prev, instructions }));
-  };
-
-  const handlePlanChange = (plan: PricingPlan) => {
-    setFormData(prev => ({ ...prev, plan }));
   };
 
   if (orderComplete) {
@@ -598,6 +687,21 @@ export function CreateProject() {
             >
               {isSubmitting ? 'Processing Order...' : currentStep === 7 ? `Complete Order ($${calculateTotalPrice()})` : 'Next Step'}
             </Button>
+          </div>
+          
+          {/* Debug Info (remove in production) */}
+          <div className="mt-8 p-4 bg-gray-800 rounded-lg text-xs text-gray-400">
+            <div>Current Step: {currentStep}</div>
+            <div>Can Proceed: {canProceed() ? 'Yes' : 'No'}</div>
+            <div>Form Data: {JSON.stringify({
+              type: formData.type,
+              orientation: formData.orientation,
+              tone: formData.tone,
+              avatar: formData.avatar?.name || 'None',
+              script: formData.script.length + ' chars',
+              needsHelp: formData.needsScriptHelp,
+              plan: formData.plan?.name || 'None'
+            }, null, 2)}</div>
           </div>
         </div>
       </div>

@@ -68,12 +68,12 @@ export function VideoTypeSelector({ selectedType, selectedOrientation, onTypeCha
   ] as const;
 
   const handleTypeClick = (typeId: string) => {
-    console.log('Type clicked:', typeId); // Debug log
+    console.log('Type clicked:', typeId);
     onTypeChange(typeId as 'product-demo' | 'explainer' | 'tutorial' | 'brand-story' | 'social-ad' | 'custom');
   };
 
   const handleOrientationClick = (orientation: 'horizontal' | 'vertical') => {
-    console.log('Orientation clicked:', orientation); // Debug log
+    console.log('Orientation clicked:', orientation);
     onOrientationChange(orientation);
   };
 
