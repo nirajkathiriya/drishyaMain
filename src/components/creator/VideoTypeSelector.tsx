@@ -67,6 +67,16 @@ export function VideoTypeSelector({ selectedType, selectedOrientation, onTypeCha
     }
   ] as const;
 
+  const handleTypeClick = (typeId: string) => {
+    console.log('Type clicked:', typeId); // Debug log
+    onTypeChange(typeId as 'product-demo' | 'explainer' | 'tutorial' | 'brand-story' | 'social-ad' | 'custom');
+  };
+
+  const handleOrientationClick = (orientation: 'horizontal' | 'vertical') => {
+    console.log('Orientation clicked:', orientation); // Debug log
+    onOrientationChange(orientation);
+  };
+
   return (
     <div className="space-y-8">
       <div>
@@ -84,7 +94,7 @@ export function VideoTypeSelector({ selectedType, selectedOrientation, onTypeCha
                 ? 'ring-2 ring-purple-500 shadow-2xl bg-gradient-to-br from-purple-500/10 to-blue-500/10' 
                 : 'hover:shadow-xl card-professional'
             }`}
-            onClick={() => onTypeChange(type.id)}
+            onClick={() => handleTypeClick(type.id)}
           >
             <div className="relative overflow-hidden rounded-t-2xl">
               <img 
@@ -134,7 +144,7 @@ export function VideoTypeSelector({ selectedType, selectedOrientation, onTypeCha
                   ? 'ring-2 ring-purple-500 bg-gradient-to-br from-purple-500/10 to-blue-500/10' 
                   : 'card-professional hover:shadow-lg'
               }`}
-              onClick={() => onOrientationChange('horizontal')}
+              onClick={() => handleOrientationClick('horizontal')}
             >
               <CardContent className="p-6 text-center">
                 <div className="bg-gradient-to-r from-blue-500 to-cyan-500 w-20 h-12 rounded-lg mx-auto mb-4 flex items-center justify-center">
@@ -147,6 +157,13 @@ export function VideoTypeSelector({ selectedType, selectedOrientation, onTypeCha
                 <div className="text-xs text-gray-400">
                   Recommended for: YouTube, Vimeo, websites, email campaigns
                 </div>
+                {selectedOrientation === 'horizontal' && (
+                  <div className="mt-3 bg-green-500 rounded-full p-2 w-8 h-8 mx-auto flex items-center justify-center">
+                    <svg className="h-4 w-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                )}
               </CardContent>
             </Card>
 
@@ -156,7 +173,7 @@ export function VideoTypeSelector({ selectedType, selectedOrientation, onTypeCha
                   ? 'ring-2 ring-purple-500 bg-gradient-to-br from-purple-500/10 to-blue-500/10' 
                   : 'card-professional hover:shadow-lg'
               }`}
-              onClick={() => onOrientationChange('vertical')}
+              onClick={() => handleOrientationClick('vertical')}
             >
               <CardContent className="p-6 text-center">
                 <div className="bg-gradient-to-r from-pink-500 to-red-500 w-12 h-20 rounded-lg mx-auto mb-4 flex items-center justify-center">
@@ -169,6 +186,13 @@ export function VideoTypeSelector({ selectedType, selectedOrientation, onTypeCha
                 <div className="text-xs text-gray-400">
                   Recommended for: Instagram Stories, TikTok, YouTube Shorts, Reels
                 </div>
+                {selectedOrientation === 'vertical' && (
+                  <div className="mt-3 bg-green-500 rounded-full p-2 w-8 h-8 mx-auto flex items-center justify-center">
+                    <svg className="h-4 w-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>
