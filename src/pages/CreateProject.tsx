@@ -26,9 +26,9 @@ export function CreateProject() {
   const { isAuthenticated, user } = useAuth();
   
   const [formData, setFormData] = useState({
-    type: '' as 'product-demo' | 'explainer' | 'tutorial' | 'brand-story' | 'social-ad' | 'custom' | '',
-    orientation: '' as 'horizontal' | 'vertical' | '',
-    tone: '' as 'professional' | 'casual' | 'energetic' | 'serious' | 'humorous' | 'inspirational' | '',
+    type: '',
+    orientation: '',
+    tone: '',
     avatar: null as Avatar | null,
     script: '',
     needsScriptHelp: false,
@@ -63,7 +63,6 @@ export function CreateProject() {
   useEffect(() => {
     if (location.state?.selectedPlan) {
       const selectedPlanId = location.state.selectedPlan;
-      // Find plan from PlanSelector component
       setFormData(prev => ({ ...prev, plan: { id: selectedPlanId } as PricingPlan }));
       setCurrentStep(6);
     }
@@ -93,57 +92,33 @@ export function CreateProject() {
   ];
 
   const isStepComplete = (step: number) => {
-    console.log(`Checking step ${step} completion:`, formData);
     switch (step) {
       case 1: 
-        const step1Complete = formData.type !== '' && formData.orientation !== '';
-        console.log(`Step 1 complete: ${step1Complete}`, { type: formData.type, orientation: formData.orientation });
-        return step1Complete;
+        return formData.type !== '' && formData.orientation !== '';
       case 2: 
-        const step2Complete = formData.tone !== '';
-        console.log(`Step 2 complete: ${step2Complete}`, { tone: formData.tone });
-        return step2Complete;
+        return formData.tone !== '';
       case 3: 
-        const step3Complete = formData.avatar !== null;
-        console.log(`Step 3 complete: ${step3Complete}`, { avatar: formData.avatar });
-        return step3Complete;
+        return formData.avatar !== null;
       case 4: 
-        const step4Complete = formData.script.trim() !== '' || (formData.needsScriptHelp && formData.scriptRequirements.targetAudience.trim() !== '' && formData.scriptRequirements.keyMessages.trim() !== '');
-        console.log(`Step 4 complete: ${step4Complete}`, { 
-          script: formData.script, 
-          needsHelp: formData.needsScriptHelp, 
-          requirements: formData.scriptRequirements 
-        });
-        return step4Complete;
+        return formData.script.trim() !== '' || (formData.needsScriptHelp && formData.scriptRequirements.targetAudience.trim() !== '' && formData.scriptRequirements.keyMessages.trim() !== '');
       case 5: 
         return true; // Files and notes are optional
       case 6: 
-        const step6Complete = formData.plan !== null;
-        console.log(`Step 6 complete: ${step6Complete}`, { plan: formData.plan });
-        return step6Complete;
+        return formData.plan !== null;
       case 7: 
-        const step7Complete = formData.customerEmail !== '' && formData.customerName !== '';
-        console.log(`Step 7 complete: ${step7Complete}`, { email: formData.customerEmail, name: formData.customerName });
-        return step7Complete;
+        return formData.customerEmail !== '' && formData.customerName !== '';
       default: 
         return false;
     }
   };
 
   const canProceed = () => {
-    const canGo = isStepComplete(currentStep);
-    console.log(`Can proceed from step ${currentStep}: ${canGo}`);
-    return canGo;
+    return isStepComplete(currentStep);
   };
 
   const handleNext = () => {
-    console.log('Next button clicked, current step:', currentStep);
     if (canProceed() && currentStep < 7) {
-      const nextStep = currentStep + 1;
-      console.log('Moving to step:', nextStep);
-      setCurrentStep(nextStep);
-    } else {
-      console.log('Cannot proceed:', { canProceed: canProceed(), currentStep });
+      setCurrentStep(currentStep + 1);
     }
   };
 
@@ -167,104 +142,9 @@ export function CreateProject() {
     setShowAuthModal(false);
   };
 
-  // Form data update handlers with proper state management
-  const handleVideoTypeChange = (type: 'product-demo' | 'explainer' | 'tutorial' | 'brand-story' | 'social-ad' | 'custom') => {
-    console.log('Video type changed to:', type);
-    setFormData(prev => {
-      const newData = { ...prev, type };
-      console.log('New form data after type change:', newData);
-      return newData;
-    });
-  };
-
-  const handleOrientationChange = (orientation: 'horizontal' | 'vertical') => {
-    console.log('Orientation changed to:', orientation);
-    setFormData(prev => {
-      const newData = { ...prev, orientation };
-      console.log('New form data after orientation change:', newData);
-      return newData;
-    });
-  };
-
-  const handleToneChange = (tone: 'professional' | 'casual' | 'energetic' | 'serious' | 'humorous' | 'inspirational') => {
-    console.log('Tone changed to:', tone);
-    setFormData(prev => {
-      const newData = { ...prev, tone };
-      console.log('New form data after tone change:', newData);
-      return newData;
-    });
-  };
-
-  const handleAvatarChange = (avatar: Avatar) => {
-    console.log('Avatar changed to:', avatar);
-    setFormData(prev => {
-      const newData = { ...prev, avatar };
-      console.log('New form data after avatar change:', newData);
-      return newData;
-    });
-  };
-
-  const handleScriptChange = (script: string) => {
-    console.log('Script changed, length:', script.length);
-    setFormData(prev => {
-      const newData = { ...prev, script };
-      console.log('New form data after script change:', newData);
-      return newData;
-    });
-  };
-
-  const handleNeedsHelpChange = (needsScriptHelp: boolean) => {
-    console.log('Needs script help changed to:', needsScriptHelp);
-    setFormData(prev => {
-      const newData = { ...prev, needsScriptHelp };
-      console.log('New form data after needs help change:', newData);
-      return newData;
-    });
-  };
-
-  const handleRequirementsChange = (requirements: any) => {
-    console.log('Script requirements changed:', requirements);
-    setFormData(prev => {
-      const newData = { ...prev, scriptRequirements: requirements };
-      console.log('New form data after requirements change:', newData);
-      return newData;
-    });
-  };
-
-  const handleFilesChange = (files: File[]) => {
-    console.log('Files changed, count:', files.length);
-    setFormData(prev => {
-      const newData = { ...prev, attachedFiles: files };
-      console.log('New form data after files change:', newData);
-      return newData;
-    });
-  };
-
-  const handleNotesChange = (notes: string) => {
-    console.log('Notes changed, length:', notes.length);
-    setFormData(prev => {
-      const newData = { ...prev, additionalNotes: notes };
-      console.log('New form data after notes change:', newData);
-      return newData;
-    });
-  };
-
-  const handleInstructionsChange = (instructions: string) => {
-    console.log('Instructions changed, length:', instructions.length);
-    setFormData(prev => {
-      const newData = { ...prev, instructions };
-      console.log('New form data after instructions change:', newData);
-      return newData;
-    });
-  };
-
-  const handlePlanChange = (plan: PricingPlan) => {
-    console.log('Plan changed to:', plan);
-    setFormData(prev => {
-      const newData = { ...prev, plan };
-      console.log('New form data after plan change:', newData);
-      return newData;
-    });
+  // Form data update handlers
+  const updateFormData = (updates: Partial<typeof formData>) => {
+    setFormData(prev => ({ ...prev, ...updates }));
   };
 
   const generateOrderId = () => {
@@ -432,22 +312,22 @@ export function CreateProject() {
           <VideoTypeSelector
             selectedType={formData.type}
             selectedOrientation={formData.orientation}
-            onTypeChange={handleVideoTypeChange}
-            onOrientationChange={handleOrientationChange}
+            onTypeChange={(type) => updateFormData({ type })}
+            onOrientationChange={(orientation) => updateFormData({ orientation })}
           />
         );
       case 2:
         return (
           <ToneSelector
             selectedTone={formData.tone}
-            onToneChange={handleToneChange}
+            onToneChange={(tone) => updateFormData({ tone })}
           />
         );
       case 3:
         return (
           <AvatarSelector
             selectedAvatar={formData.avatar}
-            onAvatarChange={handleAvatarChange}
+            onAvatarChange={(avatar) => updateFormData({ avatar })}
           />
         );
       case 4:
@@ -456,9 +336,9 @@ export function CreateProject() {
             script={formData.script}
             needsScriptHelp={formData.needsScriptHelp}
             scriptRequirements={formData.scriptRequirements}
-            onScriptChange={handleScriptChange}
-            onNeedsHelpChange={handleNeedsHelpChange}
-            onRequirementsChange={handleRequirementsChange}
+            onScriptChange={(script) => updateFormData({ script })}
+            onNeedsHelpChange={(needsScriptHelp) => updateFormData({ needsScriptHelp })}
+            onRequirementsChange={(scriptRequirements) => updateFormData({ scriptRequirements })}
           />
         );
       case 5:
@@ -467,16 +347,16 @@ export function CreateProject() {
             files={formData.attachedFiles}
             notes={formData.additionalNotes}
             instructions={formData.instructions}
-            onFilesChange={handleFilesChange}
-            onNotesChange={handleNotesChange}
-            onInstructionsChange={handleInstructionsChange}
+            onFilesChange={(attachedFiles) => updateFormData({ attachedFiles })}
+            onNotesChange={(additionalNotes) => updateFormData({ additionalNotes })}
+            onInstructionsChange={(instructions) => updateFormData({ instructions })}
           />
         );
       case 6:
         return (
           <PlanSelector
             selectedPlan={formData.plan}
-            onPlanChange={handlePlanChange}
+            onPlanChange={(plan) => updateFormData({ plan })}
           />
         );
       case 7:
@@ -689,19 +569,26 @@ export function CreateProject() {
             </Button>
           </div>
           
-          {/* Debug Info (remove in production) */}
-          <div className="mt-8 p-4 bg-gray-800 rounded-lg text-xs text-gray-400">
-            <div>Current Step: {currentStep}</div>
-            <div>Can Proceed: {canProceed() ? 'Yes' : 'No'}</div>
-            <div>Form Data: {JSON.stringify({
-              type: formData.type,
-              orientation: formData.orientation,
-              tone: formData.tone,
-              avatar: formData.avatar?.name || 'None',
-              script: formData.script.length + ' chars',
-              needsHelp: formData.needsScriptHelp,
-              plan: formData.plan?.name || 'None'
-            }, null, 2)}</div>
+          {/* Debug Panel */}
+          <div className="mt-8 p-4 bg-gray-800/50 rounded-lg border border-gray-700">
+            <h4 className="text-sm font-semibold text-gray-300 mb-2">Debug Info</h4>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-gray-400">
+              <div>
+                <strong>Current Step:</strong> {currentStep}<br/>
+                <strong>Can Proceed:</strong> {canProceed() ? 'Yes' : 'No'}<br/>
+                <strong>Step Complete:</strong> {isStepComplete(currentStep) ? 'Yes' : 'No'}
+              </div>
+              <div>
+                <strong>Type:</strong> {formData.type || 'None'}<br/>
+                <strong>Orientation:</strong> {formData.orientation || 'None'}<br/>
+                <strong>Tone:</strong> {formData.tone || 'None'}
+              </div>
+              <div>
+                <strong>Avatar:</strong> {formData.avatar?.name || 'None'}<br/>
+                <strong>Script:</strong> {formData.script.length} chars<br/>
+                <strong>Plan:</strong> {formData.plan?.name || 'None'}
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -67,16 +67,6 @@ export function VideoTypeSelector({ selectedType, selectedOrientation, onTypeCha
     }
   ] as const;
 
-  const handleTypeClick = (typeId: string) => {
-    console.log('Type clicked:', typeId);
-    onTypeChange(typeId as 'product-demo' | 'explainer' | 'tutorial' | 'brand-story' | 'social-ad' | 'custom');
-  };
-
-  const handleOrientationClick = (orientation: 'horizontal' | 'vertical') => {
-    console.log('Orientation clicked:', orientation);
-    onOrientationChange(orientation);
-  };
-
   return (
     <div className="space-y-8">
       <div>
@@ -94,7 +84,7 @@ export function VideoTypeSelector({ selectedType, selectedOrientation, onTypeCha
                 ? 'ring-2 ring-purple-500 shadow-2xl bg-gradient-to-br from-purple-500/10 to-blue-500/10' 
                 : 'hover:shadow-xl card-professional'
             }`}
-            onClick={() => handleTypeClick(type.id)}
+            onClick={() => onTypeChange(type.id)}
           >
             <div className="relative overflow-hidden rounded-t-2xl">
               <img 
@@ -144,7 +134,7 @@ export function VideoTypeSelector({ selectedType, selectedOrientation, onTypeCha
                   ? 'ring-2 ring-purple-500 bg-gradient-to-br from-purple-500/10 to-blue-500/10' 
                   : 'card-professional hover:shadow-lg'
               }`}
-              onClick={() => handleOrientationClick('horizontal')}
+              onClick={() => onOrientationChange('horizontal')}
             >
               <CardContent className="p-6 text-center">
                 <div className="bg-gradient-to-r from-blue-500 to-cyan-500 w-20 h-12 rounded-lg mx-auto mb-4 flex items-center justify-center">
@@ -173,7 +163,7 @@ export function VideoTypeSelector({ selectedType, selectedOrientation, onTypeCha
                   ? 'ring-2 ring-purple-500 bg-gradient-to-br from-purple-500/10 to-blue-500/10' 
                   : 'card-professional hover:shadow-lg'
               }`}
-              onClick={() => handleOrientationClick('vertical')}
+              onClick={() => onOrientationChange('vertical')}
             >
               <CardContent className="p-6 text-center">
                 <div className="bg-gradient-to-r from-pink-500 to-red-500 w-12 h-20 rounded-lg mx-auto mb-4 flex items-center justify-center">
