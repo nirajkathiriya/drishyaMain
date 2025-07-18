@@ -10,6 +10,7 @@ import { AvatarSelector } from '../components/creator/AvatarSelector';
 import { ScriptUpload } from '../components/creator/ScriptUpload';
 import { FileUploadNotes } from '../components/creator/FileUploadNotes';
 import { PlanSelector } from '../components/creator/PlanSelector';
+import { OrderSummaryModal } from '../components/creator/OrderSummaryModal';
 import { Avatar, PricingPlan } from '../types';
 import { EmailService, OrderConfirmation } from '../services/emailService';
 import { useAuth } from '../hooks/useAuth';
@@ -21,6 +22,7 @@ export function CreateProject() {
   const [orderId, setOrderId] = useState('');
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [savedDraft, setSavedDraft] = useState(false);
+  const [showSummaryModal, setShowSummaryModal] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { isAuthenticated, user } = useAuth();
@@ -554,7 +556,7 @@ export function CreateProject() {
             </div>
             
             <Button
-              onClick={currentStep === 7 ? handleOrderSubmit : handleNext}
+              onClick={currentStep === 7 ? () => setShowSummaryModal(true) : handleNext}
               disabled={!canProceed() || isSubmitting}
               icon={currentStep === 7 ? undefined : ArrowRight}
               iconPosition="right"
@@ -598,6 +600,22 @@ export function CreateProject() {
         onClose={() => setShowAuthModal(false)}
         initialMode="signup"
         onSuccess={handleAuthSuccess}
+      />
+
+      <OrderSummaryModal
+        isOpen={showSummaryModal}
+        onClose={() => setShowSummaryModal(false)}
+        onConfirm={handleOrderSubmit}
+        data={{
+          type: formData.type,
+          orientation: formData.orientation,
+          tone: formData.tone,
+          avatar: formData.avatar,
+          plan: formData.plan,
+          needsScriptHelp: formData.needsScriptHelp,
+          attachedFiles: formData.attachedFiles,
+          totalPrice: calculateTotalPrice()
+        }}
       />
     </>
   );
