@@ -1,3 +1,4 @@
+import React from 'react';
 // Internationalization service for multi-language support
 export interface Translation {
   [key: string]: string | Translation;
@@ -504,5 +505,3 @@ export function useTranslation() {
   };
 }
 
-// Add React import for the hook
-import React from 'react';
