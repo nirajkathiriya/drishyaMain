@@ -314,8 +314,12 @@ export function CreateProject() {
           <VideoTypeSelector
             selectedType={formData.type}
             selectedOrientation={formData.orientation}
-            onTypeChange={(type) => updateFormData({ type })}
-            onOrientationChange={(orientation) => updateFormData({ orientation })}
+            onTypeChange={(type) =>
+              updateFormData({ type, orientation: '' })
+            }
+            onOrientationChange={(orientation) =>
+              updateFormData({ orientation })
+            }
           />
         );
       case 2:
